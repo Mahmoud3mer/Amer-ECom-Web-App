@@ -1,0 +1,48 @@
+.headerContainer{
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* .navBar{
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
+} */
+
+.iconsWrraper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.headerLogo{
+    margin: 0;
+    text-decoration: inherit;
+    color: inherit;
+    font-size: 2rem;
+}
+
+.headerLogo h1{
+    margin: 0;
+    display: flex;
+}
+
+.headerLogo h1 span{
+    display: block;
+    margin-right: 5px;
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+}
+.logo img{
+    width: 80px;
+    height: 25px;
+}

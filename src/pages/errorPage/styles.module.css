@@ -1,0 +1,34 @@
+.pageContainer{
+    width: 100%;
+    height: 100dvh;
+    /* background-color: #a5d6a7;
+    box-shadow: 5px 10px 10px 20px #a5d6a7; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.errorContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.errorContent h1{
+    font-size: 100px;
+    letter-spacing: 8px;
+}
+/* .errorContent h1 span{
+    color: #43a047;
+} */
+.errorContent h1::first-letter{
+    color: #43a047;
+}
+.errorContent p{
+    font-size: 20px;
+}
+.errorContent p span{
+    color: #e53935;
+}

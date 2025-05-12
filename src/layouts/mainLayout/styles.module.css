@@ -1,0 +1,10 @@
+.container{
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* For content */
+.wrapper{
+    margin-top: 10px;
+}
