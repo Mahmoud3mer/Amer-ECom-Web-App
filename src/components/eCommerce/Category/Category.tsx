@@ -10,7 +10,7 @@ interface CategoryProps {
 const Category = ({ title, imgSrc, prefix } : CategoryProps) => {
   return (
     <div className={styles.category}>
-        <Link to={`/categories/products/${prefix}`}>
+        <Link to={`/categories/${prefix}`}>
           <div className={styles.image}>
               <img 
               src={imgSrc}

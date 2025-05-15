@@ -5,11 +5,13 @@
     align-items: center;
 }
 
-/* .navBar{
-    position: sticky;
-    top: 0;
-    z-index: 1000; 
-} */
+.navBar{
+    background-color: #003b03 !important;
+}
+
+.navBar .nav-link{
+    color: white !important;
+}
 
 .iconsWrraper{
     display: flex;
@@ -45,4 +47,10 @@
 .logo img{
     width: 80px;
     height: 25px;
+}
+
+
+.breadcrumb a{
+    color: #003b03 !important;
+    text-decoration: underline;
 }

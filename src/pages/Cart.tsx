@@ -1,38 +1,23 @@
 import CartItem from "@components/eCommerce/CartItem/CartItem"
 import { Col, Container, Row } from "react-bootstrap"
 import CartSubtotalPrice from "@components/eCommerce/CartSubtotalPrice/CartSubtotalPrice"
-import { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { decreaseQuantity, getCartProducts, increaseQuantity, removeItemFromCategory } from "@store/cartSlice"
+import useCart from "@hooks/useCart"
 
 const Cart = () => {
-  const dispatch = useAppDispatch();
-  const { productsFullInfo, items } = useAppSelector(state => state.cart)
-
-  const refactorProducts = productsFullInfo.map((el) => {
-    return {
-      ...el,
-      quantity: items[el.id] || 0
-    }
-  })
-
-  useEffect(() => {
-    dispatch(getCartProducts())
-  }, [dispatch]);
-
-  const handleDecreaseQuantity = (productId: number | string, quantity: number) => {
-    if (quantity > 1) {
-      dispatch(decreaseQuantity({ productId, quantity }))
-    }
-  }
-  const handleIncreaseQuantity = (productId: number | string, quantity: number, max: number) => {
-    if (quantity < max) {
-      dispatch(increaseQuantity({ productId, quantity }))
-    }
-  }
-  const handlRemoveItemFromCategory = (productId: number | string) => {
-    dispatch(removeItemFromCategory({ productId }))
-  }
+  const { refactorProducts, loading, error, handleDecreaseQuantity, handleIncreaseQuantity, handlRemoveItemFromCategory } = useCart();
+  // const handleDecreaseQuantity = (productId: number | string, quantity: number) => {
+  //   if (quantity > 1) {
+  //     dispatch(decreaseQuantity({ productId, quantity }))
+  //   }
+  // }
+  // const handleIncreaseQuantity = (productId: number | string, quantity: number, max: number) => {
+  //   if (quantity < max) {
+  //     dispatch(increaseQuantity({ productId, quantity }))
+  //   }
+  // }
+  // const handlRemoveItemFromCategory = (productId: number | string) => {
+  //   dispatch(removeItemFromCategory({ productId }))
+  // }
 
   return (
     <Container>

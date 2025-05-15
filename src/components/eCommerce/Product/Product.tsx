@@ -1,7 +1,7 @@
 import { Button, Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
 import { FaCartPlus } from "react-icons/fa6";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { useAppDispatch } from "@store/hooks";
 import { addToCart } from "@store/cartSlice";
 import { memo, useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
@@ -22,7 +22,6 @@ const Product = memo(({ title, imgSrc, price, productId, max, quantity, isLiked 
     const dispatch = useAppDispatch();
     // const [clicked, setClicked] = useState(0);
     const [btnDisabled, setBtnDisabled] = useState(false);
-    const {loading} = useAppSelector(state => state.wishlist)
     const [isLoading, setIsloading] = useState(false);
 
     const remainingQuantity: number = max - (quantity ?? 0);
@@ -45,6 +44,10 @@ const Product = memo(({ title, imgSrc, price, productId, max, quantity, isLiked 
     }
 
     const handlAddRemoveWishlist = (productId: string | number) => {
+        if (isLoading) {
+            return;
+        }
+        
         setIsloading(true)
         dispatch(likeDislikeWishlist(productId))
         .unwrap()

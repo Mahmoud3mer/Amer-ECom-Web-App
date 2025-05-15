@@ -1,18 +1,29 @@
-import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { getWishlistProducts } from "@store/wishlistSlice";
-import { useEffect } from "react";
+import Product from "@components/eCommerce/Product/Product";
+import LoaderRecords from "@components/feedback/LoaderRecords";
+import useWishlist from "@hooks/useWishlist";
+import { Col, Container, Row } from "react-bootstrap";
 
 const WishList = () => {
-  const { wishlistProducts } = useAppSelector(state => state.wishlist);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getWishlistProducts());
-  }, [dispatch])
+  const {refactorProducts, loading, error} = useWishlist();
 
   return (
-    <div>WishList</div>
+    <Container>
+      <Row>
+        <LoaderRecords loading={loading} error={error}>
+          {
+            refactorProducts.length < 1 ?
+              <div className='d-flex justify-content-center fs-2 fw-medium font-monospace text-success'>
+                Wishlist Is Empty.
+              </div> :
+              refactorProducts?.map((p) =>
+                <Col key={p.id} xs={12} md={4} lg={3} className="mb-5 mt-2 d-flex justify-content-center">
+                  <Product title={p.title} imgSrc={p.img} price={p.price} productId={p.id} max={p.max} quantity={p.quantity} isLiked={p.isLiked} />
+                </Col>
+              )
+          }
+        </LoaderRecords>
+      </Row>
+    </Container>
   )
 }
 

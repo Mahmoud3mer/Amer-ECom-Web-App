@@ -6,6 +6,7 @@ import { useAppSelector } from "@store/hooks";
 import { getCartTotalQuantitySelector, getWishlistTotalQuantitySelector } from "@store/selectors";
 import BreadcrumbExamble from "@components/eCommerce/Breadcrumb/Breadcrumb";
 import Logo from '@assets/Logo/logo1.svg';
+import ECom from '@assets/Logo/eCom.svg';
 import HeaderWishlistIcon from "@components/eCommerce/HeaderWishlistIcon/HeaderWishlistIcon";
 
 const Header = () => {
@@ -20,7 +21,8 @@ const Header = () => {
                     <span>Amer</span>{' '}<Badge bg="success" style={{padding:'8px'}}>ECom</Badge>
                 </h1> */}
                 <div className={styles.logo} onClick={() => navigate('/')}>
-                    <img src={Logo} alt="Logo" /><Badge bg="success" style={{ padding: '8px' }}>ECom</Badge>
+                    {/* <img src={Logo} alt="Logo" /><Badge bg="success" style={{ padding: '8px' }}>eCom</Badge> */}
+                    <img src={Logo} alt="Logo" /> <img src={ECom} alt="Logo" />
                 </div>
                 <div className={styles.iconsWrraper}>
                     <HeaderWishlistIcon count={totalWishlisttQuantity}/>
@@ -54,7 +56,7 @@ const Header = () => {
             </Navbar>
 
             {/* BreadcrumbExamble */}
-            <div className="mt-3">
+            <div className={`${styles.breadcrumb} mt-3`}>
                 <BreadcrumbExamble />
             </div>
         </header>

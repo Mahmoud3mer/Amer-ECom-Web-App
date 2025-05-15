@@ -1,5 +1,6 @@
+import IntroLoader from "@components/introLoader/IntroLoader";
 import MainLayout from "@layouts/mainLayout/MainLayout";
-import { lazy } from "react";
+import { lazy, useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 
@@ -17,32 +18,32 @@ const WishList = lazy(() => import('@pages/WishList'));
 const routes = createBrowserRouter([
     {
         path: '/',
-        element: <MainLayout/>,
-        errorElement: <ErrorPage/>,
+        element: <MainLayout />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
-                element: <Home/>
+                element: <Home />
             },
             {
                 path: 'about-us',
-                element: <AboutUs/>
+                element: <AboutUs />
             },
             {
                 path: 'categories',
-                element: <Categories/>
+                element: <Categories />
             },
             {
                 path: 'login',
-                element: <Login/>
+                element: <Login />
             },
             {
                 path: 'register',
-                element: <Register/>
+                element: <Register />
             },
             {
-                path: 'categories/products/:prefix',
-                element: <Products/>,
+                path: 'categories/:prefix',
+                element: <Products />,
                 loader: ({ params }) => {
                     if (typeof params.prefix !== 'string' || !/^[a-z]+$/i.test(params.prefix)) {
                         throw new Response("Bad request", {
@@ -55,15 +56,15 @@ const routes = createBrowserRouter([
             },
             {
                 path: 'products',
-                element: <AllProducts/>
+                element: <AllProducts />
             },
             {
                 path: 'shopping-cart',
-                element: <Cart/>
+                element: <Cart />
             },
             {
                 path: 'wishList',
-                element: <WishList/>
+                element: <WishList />
             },
         ]
     }
@@ -71,7 +72,24 @@ const routes = createBrowserRouter([
 
 
 const AppRouter = () => {
-    return <RouterProvider router={routes}/>
+    const [showIntro, setShowIntro] = useState(true);
+    useEffect(() => {
+        const timer = setTimeout(() => setShowIntro(false), 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    return (
+        <>
+            {
+                showIntro ?
+                    <IntroLoader /> :
+                    <RouterProvider router={routes} />
+            }
+
+
+        </>
+    )
 }
 
 export default AppRouter;

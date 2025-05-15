@@ -47,11 +47,15 @@ export const getWishlistProducts = createAsyncThunk('wishlist/getWishlistProduct
 
     try {
         const concatenatedItemsId = itemsId.map((el) => `id=${el}`).join('&');
-        console.log(concatenatedItemsId);
-        
-        const response = await api.get(`/products?${concatenatedItemsId}`);
+        // console.log(concatenatedItemsId);
+        if (concatenatedItemsId) {
+            const response = await api.get(`/products?${concatenatedItemsId}`);
 
-        return response.data;
+            return response.data;
+        } else {
+            return [];
+        }
+
 
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -66,7 +70,9 @@ export const wishlistSlice = createSlice({
     name: 'wishlist',
     initialState,
     reducers: {
-
+        cleanUp: (state) => {
+            state.wishlistProducts = [];
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(likeDislikeWishlist.pending, (state) => {
@@ -82,8 +88,9 @@ export const wishlistSlice = createSlice({
                 state.loading = 'succeeded';
                 if (!state.itemsId.includes(action.payload.id)) {
                     state.itemsId.push(action.payload.id);
-                }else{
-                    state.itemsId = state.itemsId.filter((el) => el !== action.payload.id)
+                } else {
+                    state.itemsId = state.itemsId.filter((el) => el !== action.payload.id);
+                    state.wishlistProducts = state.wishlistProducts.filter((el) => el.id !== action.payload.id)
                 }
             })
 
@@ -103,5 +110,5 @@ export const wishlistSlice = createSlice({
     }
 });
 
-
+export const { cleanUp } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

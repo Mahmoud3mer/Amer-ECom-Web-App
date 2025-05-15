@@ -1,38 +1,11 @@
 import Product from "@components/eCommerce/Product/Product"
 import LoaderRecords from "@components/feedback/LoaderRecords";
-import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { getProductsCategory, productsCleanUp } from "@store/productsSlice";
-import { useEffect } from "react";
+import useProducts from "@hooks/useProducts";
 import { Col, Container, Row } from "react-bootstrap"
-import { useParams } from "react-router-dom";
 
 const Products = () => {
-  const { productsCategory, loading, error } = useAppSelector(state => state.products);
-  const dispatch = useAppDispatch();
-  const items = useAppSelector(state => state.cart.items)
-  const wishlistItemsIds = useAppSelector(state => state.wishlist.itemsId);
-  const params = useParams();
 
-  const refactorProducts = productsCategory.map((el) => ({
-    ...el,
-    quantity: items[el.id] || 0,
-    isLiked: wishlistItemsIds.includes(el.id),
-  }))
-  
-
-  console.log(refactorProducts);
-  
-  useEffect(() => {
-    let prefix: string;
-    if (params.prefix && typeof params.prefix === 'string') {
-      prefix = params.prefix;
-      dispatch(getProductsCategory(prefix));
-    }
-
-    return () => {
-      dispatch(productsCleanUp());
-    }
-  }, [dispatch, params]);
+  const { refactorProducts, loading, error } = useProducts();
 
   return (
     <Container>
