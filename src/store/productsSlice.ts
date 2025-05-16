@@ -1,7 +1,7 @@
 import { ProductInterface, StateInterface } from "@inerfaces/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
-import axios from "axios";
+import checkError from "@utils/checkAxiosError";
 
 interface StateProductInterface extends StateInterface {
     productsCategory: Array<ProductInterface>,
@@ -15,18 +15,22 @@ const initialState: StateProductInterface = {
 }
 
 export const getProductsCategory = createAsyncThunk('products/getProductsCategory', async (cat_prefix: string, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue, signal } = thunkAPI;
     try {
-        const response = await api.get(`/products?cat_prefix=${cat_prefix}`);
+        const response = await api.get(`/products?cat_prefix=${cat_prefix}`,{
+            signal,
+        });
         // console.log(response.data);
         return response.data;
 
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            return rejectWithValue(error.response?.data.message || error.message);
-        } else {
-            return rejectWithValue("An unexpected error.");
-        }
+        // if (axios.isAxiosError(error)) {
+        //     return rejectWithValue(error.response?.data.message || error.message);
+        // } else {
+        //     return rejectWithValue("An unexpected error.");
+        // }
+        
+        return rejectWithValue(checkError(error));
     }
 });
 
@@ -38,11 +42,13 @@ export const getAllProducts = createAsyncThunk('products/getAllProducts', async 
         return response.data;
 
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            return rejectWithValue(error.response?.data.message || error.message);
-        } else {
-            return rejectWithValue("An unexpected error.");
-        }
+        // if (axios.isAxiosError(error)) {
+        //     return rejectWithValue(error.response?.data.message || error.message);
+        // } else {
+        //     return rejectWithValue("An unexpected error.");
+        // }
+
+        return rejectWithValue(checkError(error));
     }
 })
 

@@ -15,10 +15,11 @@ const useAllProducts = () => {
     }))
   
     useEffect(() => {
-      dispatch(getAllProducts());
+      const promise = dispatch(getAllProducts());
   
       return () => {
-        dispatch(productsCleanUp()); 
+        dispatch(productsCleanUp());
+        promise.abort();
       }
     }, [dispatch]);
 

@@ -15,10 +15,11 @@ const useCart = () => {
     })
 
     useEffect(() => {
-        dispatch(getCartProducts())
+        const promise = dispatch(getCartProducts())
 
         return () => {
             dispatch(cleanUp())
+            promise.abort();
         }
     }, [dispatch]);
 

@@ -1,7 +1,7 @@
 import { CategoryInterface, StateInterface } from "@inerfaces/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
-import axios from "axios";
+import checkError from "@utils/checkAxiosError";
 
 interface CategoryStateInterface extends StateInterface{
     categories: Array<CategoryInterface>,
@@ -15,16 +15,20 @@ const initialState: CategoryStateInterface = {
 
 export const getCategories = createAsyncThunk('category/getCategories', async(_, thunkAPI) => {
 
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue, signal } = thunkAPI;
     try {
-        const response = await api<CategoryInterface[]>('/categories');
+        const response = await api<CategoryInterface[]>('/categories', {
+            signal,
+        });
         return response.data;
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            return rejectWithValue(error.response?.data.message || error.message);
-        }else{
-            return rejectWithValue("An unexpected error.")
-        }
+        // if (axios.isAxiosError(error)) {
+        //     return rejectWithValue(error.response?.data.message || error.message);
+        // }else{
+        //     return rejectWithValue("An unexpected error.")
+        // }
+
+        return rejectWithValue(checkError(error));
     }
     
     

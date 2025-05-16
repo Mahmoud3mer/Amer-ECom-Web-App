@@ -2,7 +2,7 @@ import { ProductInterface, StateInterface } from "@inerfaces/interfaces";
 import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import api from "@services/api";
-import axios from "axios";
+import checkError from "@utils/checkAxiosError";
 
 interface CatrInterface extends StateInterface {
     items: {[key: number | string] : number};
@@ -17,7 +17,7 @@ const initialState: CatrInterface = {
 }
 
 export const getCartProducts = createAsyncThunk('cart/getCartProducts', async(_, thunkAPI) => {
-    const { rejectWithValue, fulfillWithValue, getState} = thunkAPI;
+    const { rejectWithValue, fulfillWithValue, getState, signal} = thunkAPI;
 
     const { cart } = getState() as RootState;
     const itemsIds = Object.keys(cart.items);
@@ -29,17 +29,20 @@ export const getCartProducts = createAsyncThunk('cart/getCartProducts', async(_,
     try {
         const concatenatedItemsId = itemsIds.map(el => `id=${el}`).join('&');
         // console.log(concatenatedItemsId);
-        const response = await api.get<ProductInterface[]>(`/products?${concatenatedItemsId}`);
+        const response = await api.get<ProductInterface[]>(`/products?${concatenatedItemsId}`,{
+            signal,
+        });
         // console.log(response.data);
         return response.data;
         
     } catch (error) {
-        console.log(error);
-        if (axios.isAxiosError(error)) {
-            return rejectWithValue(error.response?.data.message || error.message);
-        }else{
-            return rejectWithValue('An unexpected error.')
-        }
+        // if (axios.isAxiosError(error)) {
+        //     return rejectWithValue(error.response?.data.message || error.message);
+        // }else{
+        //     return rejectWithValue('An unexpected error.')
+        // }
+
+        return rejectWithValue(checkError(error));
     }
 })
 

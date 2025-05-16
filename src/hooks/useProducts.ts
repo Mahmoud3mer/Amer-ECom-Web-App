@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const useProducts = () => {
-    const { productsCategory, loading, error } = useAppSelector(state => state.products);
+  const { productsCategory, loading, error } = useAppSelector(state => state.products);
   const dispatch = useAppDispatch();
   const items = useAppSelector(state => state.cart.items)
   const wishlistItemsIds = useAppSelector(state => state.wishlist.itemsId);

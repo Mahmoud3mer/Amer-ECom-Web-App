@@ -8,8 +8,13 @@ const useCategories = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!categories.length) {
-      dispatch(getCategories());
+    // if (!categories.length) {
+    //   dispatch(getCategories());
+    // }
+    const promise = dispatch(getCategories());
+
+    return () => {
+      promise.abort();
     }
   }, [dispatch])
 

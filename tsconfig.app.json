@@ -28,7 +28,7 @@
       "@store/*": ["src/store/*"],
       "@styles/*": ["src/styles/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@util/*": ["src/util/*"],
+      "@utils/*": ["src/utils/*"],
       "@services/*": ["src/services/*"],
       "@inerfaces/*": ["src/inerfaces/*"]
     },

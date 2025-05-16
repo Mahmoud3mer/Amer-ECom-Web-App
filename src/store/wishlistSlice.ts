@@ -1,8 +1,8 @@
 import { StateInterface, WishlistInterface } from "@inerfaces/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
-import axios from "axios";
 import { RootState } from "./store";
+import checkError from "@utils/checkAxiosError";
 
 // interface IWishlistState extends StateInterface{
 //     wishlist: WishlistInterface[]
@@ -32,11 +32,13 @@ export const likeDislikeWishlist = createAsyncThunk('wishlist/likeDislikeWishlis
             return { id: productId, message: 'Added successfully.' }
         }
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            return rejectWithValue(error.response?.data.message || error.message)
-        } else {
-            return rejectWithValue('Is unexpected error.')
-        }
+        // if (axios.isAxiosError(error)) {
+        //     return rejectWithValue(error.response?.data.message || error.message)
+        // } else {
+        //     return rejectWithValue('Is unexpected error.')
+        // }
+
+        return rejectWithValue(checkError(error));
     }
 });
 
@@ -58,11 +60,13 @@ export const getWishlistProducts = createAsyncThunk('wishlist/getWishlistProduct
 
 
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            return rejectWithValue(error.response?.data.message || error.message)
-        } else {
-            return rejectWithValue('Is unexpected error.')
-        }
+        // if (axios.isAxiosError(error)) {
+        //     return rejectWithValue(error.response?.data.message || error.message)
+        // } else {
+        //     return rejectWithValue('Is unexpected error.')
+        // }
+
+        return rejectWithValue(checkError(error));
     }
 })
 
