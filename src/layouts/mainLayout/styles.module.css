@@ -2,9 +2,32 @@
     height: 100dvh;
     display: flex;
     flex-direction: column;
+    /* new */
+    width: 100dvw;
+    overflow-x: hidden;
 }
 
 /* For content */
 .wrapper{
     margin-top: 10px;
 }
+
+::-webkit-scrollbar{
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 6px;
+  }
+  
+  /* المقبض (Thumb) */
+  ::-webkit-scrollbar-thumb {
+    background: #003b03 ;
+    border-radius: 6px;
+  }
+  
+  /* عند التحويم فوق المقبض */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

@@ -2,15 +2,21 @@ import Product from "@components/eCommerce/Product/Product"
 import LoaderRecords from "@components/feedback/LoaderRecords";
 import useProducts from "@hooks/useProducts";
 import { Col, Container, Row } from "react-bootstrap"
+import { Helmet } from 'react-helmet';
+import { useLocation } from "react-router-dom";
 
 const Products = () => {
 
   const { refactorProducts, loading, error } = useProducts();
-
+  const { pathname } = useLocation();
+  
   return (
     <Container>
+      <Helmet>
+        <title>{ pathname.slice(1) }</title>
+      </Helmet>
       <Row>
-        <LoaderRecords loading={loading} error={error}>
+        <LoaderRecords loading={loading} error={error} type={'product'}>
             {
               refactorProducts?.map((p) =>
                 <Col key={p.id} xs={12} md={4} lg={3} className="mb-5 mt-2 d-flex justify-content-center">

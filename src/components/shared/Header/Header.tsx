@@ -56,7 +56,7 @@ const Header = () => {
             </Navbar>
 
             {/* BreadcrumbExamble */}
-            <div className={`${styles.breadcrumb} mt-3`}>
+            <div className={`${styles.breadcrumb} mt-3 mx-2`}>
                 <BreadcrumbExamble />
             </div>
         </header>

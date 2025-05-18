@@ -7,7 +7,7 @@ import { Outlet } from 'react-router-dom';
 
 const MainLayout = () => {
   return (
-    <Container className={styles.container}>
+    <div className={styles.container}>
         {/* start header */} 
         <Header />
         {/* end header */}
@@ -21,7 +21,7 @@ const MainLayout = () => {
         {/* start footer */}
         <Footer />
         {/* end footer */}
-    </Container>
+    </div>
   )
 }
 
