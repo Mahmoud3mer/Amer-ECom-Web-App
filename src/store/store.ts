@@ -3,6 +3,8 @@ import categoriesSlice from "./categoriesSlice";
 import productsSlice from './productsSlice';
 import cartSlice from "./cartSlice";
 import storage from 'redux-persist/lib/storage';
+import authSlice from "./authSlice";
+
 import {
     persistStore,
     persistReducer,
@@ -19,7 +21,7 @@ import wishlistSlice from "./wishlistSlice";
 const rootersistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart', 'wishlist'],
+    whitelist: ['cart', 'wishlist', 'auth'],
 }
 
 const cartPersistConfig = {
@@ -32,8 +34,14 @@ const wishlistPersistConfig = {
     storage,
     whitelist: ['itemsId'],
 }
+const authPersistConfig = {
+    key: 'auth',
+    storage,
+    whitelist: ['accessToken', 'userInfo'],
+}
 
 const rootReducer = combineReducers({
+    auth: persistReducer(authPersistConfig, authSlice),
     categories: categoriesSlice,
     products: productsSlice,
     cart: persistReducer(cartPersistConfig, cartSlice),

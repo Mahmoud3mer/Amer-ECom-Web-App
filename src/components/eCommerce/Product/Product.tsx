@@ -1,12 +1,13 @@
 import { Button, Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
 import { FaCartPlus } from "react-icons/fa6";
-import { useAppDispatch } from "@store/hooks";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { addToCart } from "@store/cartSlice";
 import { memo, useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { likeDislikeWishlist } from "@store/wishlistSlice";
+import toast from "react-hot-toast";
 
 interface ProductProps {
     title: string,
@@ -18,6 +19,7 @@ interface ProductProps {
     isLiked: boolean;
 }
 const Product = memo(({ title, imgSrc, price, productId, max, quantity, isLiked }: ProductProps) => {
+    const { accessToken } = useAppSelector(s => s.auth);
 
     const dispatch = useAppDispatch();
     // const [clicked, setClicked] = useState(0);
@@ -44,15 +46,20 @@ const Product = memo(({ title, imgSrc, price, productId, max, quantity, isLiked 
     }
 
     const handlAddRemoveWishlist = (productId: string | number) => {
-        if (isLoading) {
-            return;
+        if (!accessToken) {
+            toast.error('Please log in first.');
+        }else{
+            if (isLoading) {
+                return;
+            }
+            
+            setIsloading(true)
+            dispatch(likeDislikeWishlist(productId))
+            .unwrap()
+            .then(() => setIsloading(false))
+            .catch(() => setIsloading(false));
         }
         
-        setIsloading(true)
-        dispatch(likeDislikeWishlist(productId))
-        .unwrap()
-        .then(() => setIsloading(false))
-        .catch(() => setIsloading(false));
 
         // setTimeout(() => {
         //     setIsloading(false);

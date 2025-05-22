@@ -1,12 +1,16 @@
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import styles from './styles.module.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from './../../../node_modules/@hookform/resolvers/zod/src/zod';
 import { signUpSchema, TInputsRegister } from "@validations/schemas/registerSchema";
 import Input from "@components/forms/Input";
 import { Helmet } from "react-helmet";
 import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { authRegister, resetUI } from "@store/authSlice";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 // const signUpSchema = z.object({
 //   firstName: z.string().min(3, {message: "First name must have 3 characters at least."}),
@@ -34,11 +38,14 @@ import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability";
 
 
 const Register = () => {
+  const { loading, error, accessToken } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
-    handleSubmit, 
-    formState: {errors},
+    handleSubmit,
+    formState: { errors },
     getFieldState,
     trigger,
   } = useForm<TInputsRegister>({
@@ -48,14 +55,21 @@ const Register = () => {
 
   const submit: SubmitHandler<TInputsRegister> = (data) => {
     console.log(data)
+    const { firstName, lastName, email, password } = data;
+    dispatch(authRegister({ firstName, lastName, email, password })).unwrap().then(() => {
+      toast.success('Successfully registered.');
+      navigate('/login');
+    }).catch((error) => {
+      toast.error(error);
+    });;
   };
 
-  const { emailAvailabilityStatus, enteredEmail, checkEmailAvailability, resetCheckEmailAvailability} = useCheckEmailAvailability();
+  const { emailAvailabilityStatus, enteredEmail, checkEmailAvailability, resetCheckEmailAvailability } = useCheckEmailAvailability();
 
   const handleOnBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
     const value = e.target.value;
     await trigger('email');
-    const { invalid, isDirty} = getFieldState('email');
+    const { invalid, isDirty } = getFieldState('email');
     // console.log(invalid, isDirty);
     if (isDirty && !invalid && enteredEmail !== value) {
       // checking
@@ -65,20 +79,30 @@ const Register = () => {
     if (isDirty && invalid && enteredEmail) {
       resetCheckEmailAvailability();
     }
-    
+
   }
   const { pathname } = useLocation();
-  
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetUI())
+    };
+  }, [dispatch])
+
+  if (accessToken) {
+    return <Navigate to={'/'}/>
+  }
+
   return (
     <div className={styles.formContainer}>
       <Helmet>
-        <title>{ pathname.slice(1) }</title>
+        <title>{pathname.slice(1)}</title>
       </Helmet>
 
       <div>
         <h2>Sign Up</h2>
       </div>
-      <Form style={{width:"60%"}} onSubmit={handleSubmit(submit)}>
+      <Form style={{ width: "60%" }} onSubmit={handleSubmit(submit)}>
         {/* <Form.Group className="mb-3" controlId="firstName">
           <Form.Label>First Name</Form.Label>
           <Form.Control type="text" {...register('firstName')} isInvalid={!!errors.firstName}/>
@@ -88,20 +112,20 @@ const Register = () => {
           </Form.Control.Feedback>
         </Form.Group> */}
 
-        <Input label="First Name" type="text" name="firstName" register={register} error={errors?.firstName?.message}/>
+        <Input label="First Name" type="text" name="firstName" register={register} error={errors?.firstName?.message} />
 
-        <Input label="Last Name" type="text" name="lastName" register={register} error={errors?.lastName?.message}/>
+        <Input label="Last Name" type="text" name="lastName" register={register} error={errors?.lastName?.message} />
 
         <Input
-          label="Email" 
-          type="email" 
-          name="email" 
-          register={register} 
+          label="Email"
+          type="email"
+          name="email"
+          register={register}
           error={
-            errors?.email?.message? errors?.email?.message : 
-            emailAvailabilityStatus === 'notAvailable' ? 'This email is already in use.' : 
-            emailAvailabilityStatus === 'failed' ? 'Error from the server.' : ''
-          } 
+            errors?.email?.message ? errors?.email?.message :
+              emailAvailabilityStatus === 'notAvailable' ? 'This email is already in use.' :
+                emailAvailabilityStatus === 'failed' ? 'Error from the server.' : ''
+          }
           onBlur={handleOnBlur}
           formText={
             emailAvailabilityStatus === "checking"
@@ -113,24 +137,38 @@ const Register = () => {
               ? "This email is available for use."
               : ""
           }
-            disabled={emailAvailabilityStatus === "checking" ? true : false}
-          />
+          disabled={emailAvailabilityStatus === "checking" ? true : false}
+        />
 
-        <Input label="Password" type="password" name="password" register={register} error={errors?.password?.message}/>
+        <Input label="Password" type="password" name="password" register={register} error={errors?.password?.message} />
 
-        <Input label="Confirm password" type="password" name="confirmPassword" register={register} error={errors?.confirmPassword?.message}/>
+        <Input label="Confirm password" type="password" name="confirmPassword" register={register} error={errors?.confirmPassword?.message} />
 
-        <Button 
-          variant="success" 
-          type="submit" 
+        <Button
+          variant="success"
+          type="submit"
           disabled={
-            errors.email?.message || errors.firstName?.message || errors.lastName?.message || errors.password?.message || errors.confirmPassword?.message? true : 
-            emailAvailabilityStatus === 'checking' ? true : false
+            errors.email?.message || errors.firstName?.message || errors.lastName?.message || errors.password?.message || errors.confirmPassword?.message ? true :
+              emailAvailabilityStatus === 'checking' ? true : loading == 'pending' ? true : false
           }
-          >
-          Sign Up
+        >
+          {
+            loading === 'pending' ?
+              <>
+                <Spinner animation="border" variant="success" size="sm" />loading...
+              </> : 'Sign Up'
+          }
+
         </Button>
+
+        {
+          error ?
+            <div style={{ color: '#DC3545', marginTop: '10px' }}>
+              {error}
+            </div> : ''
+        }
       </Form>
+
 
       <div className={styles.haveAccount}>
         Already have an account? <Link to={'/login'}>Log In</Link>

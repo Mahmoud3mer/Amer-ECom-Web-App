@@ -15,7 +15,7 @@ const useWishlist = () => {
     }))
   
     useEffect(() => {
-      dispatch(getWishlistProducts());
+      dispatch(getWishlistProducts('productsFullInfo'));
   
       return () => {
         dispatch(cleanUp())

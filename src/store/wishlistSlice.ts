@@ -18,46 +18,59 @@ const initialState: IWishlistState = {
     wishlistProducts: [],
 }
 
-const userId = 1;
+type TDataType = "productsFullInfo" | "ProductIds";
 
 export const likeDislikeWishlist = createAsyncThunk('wishlist/likeDislikeWishlist', async (productId: string | number, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue, getState } = thunkAPI;
+    const { auth } = getState() as RootState;
+    const { userInfo } = auth;
     try {
-        const response = await api.get(`/wishlist?userId=${userId}&productId=${productId}`);
+        const response = await api.get(`/wishlist?userId=${userInfo?.id}&productId=${productId}`);
         if (response.data.length > 0) {
             await api.delete(`/wishlist/${response.data[0].id}`);
             return { id: productId, message: 'Removed successfully.' }
         } else {
-            await api.post('wishlist', { userId: userId, productId: productId })
+            await api.post('wishlist', { userId: userInfo?.id, productId: productId })
             return { id: productId, message: 'Added successfully.' }
         }
+       
     } catch (error) {
-        // if (axios.isAxiosError(error)) {
-        //     return rejectWithValue(error.response?.data.message || error.message)
-        // } else {
-        //     return rejectWithValue('Is unexpected error.')
-        // }
-
         return rejectWithValue(checkError(error));
     }
 });
 
-export const getWishlistProducts = createAsyncThunk('wishlist/getWishlistProducts', async (_, thunkAPI) => {
+export const getWishlistProducts = createAsyncThunk('wishlist/getWishlistProducts', async (dataType: TDataType, thunkAPI) => {
     const { rejectWithValue, getState } = thunkAPI;
-    const { wishlist } = getState() as RootState;
+    const { wishlist, auth } = getState() as RootState;
     const { itemsId } = wishlist;
+    const { userInfo } = auth;
 
     try {
-        const concatenatedItemsId = itemsId.map((el) => `id=${el}`).join('&');
-        // console.log(concatenatedItemsId);
-        if (concatenatedItemsId) {
-            const response = await api.get(`/products?${concatenatedItemsId}`);
+        // const concatenatedItemsId = itemsId.map((el) => `id=${el}`).join('&');
+        // // console.log(concatenatedItemsId);
+        // if (concatenatedItemsId) {
+        //     const response = await api.get(`/products?${concatenatedItemsId}`);
 
-            return response.data;
-        } else {
-            return [];
+        //     return response.data;
+        // } else {
+        //     return [];
+        // }
+
+        const userWishlist = await api.get<WishlistInterface[]>(`/wishlist?userId=${userInfo?.id}`);
+        // console.log(userWishlist.data,userInfo?.id);
+        
+        if (userWishlist.data.length < 1) {
+            return { data: [], dataType: 'empty'}
         }
 
+        if (dataType === 'ProductIds') {
+            const itemsIds = userWishlist.data.map((el) => el.productId);
+            return { data: itemsIds, dataType: 'ProductIds'}
+        }else{
+            const concatenatedItemsId = userWishlist.data.map((el) => `id=${el.productId}`).join("&");
+            const res = await api.get(`/products?${concatenatedItemsId}`);
+            return { data: res.data, dataType: 'productsFullInfo' }
+        }
 
     } catch (error) {
         // if (axios.isAxiosError(error)) {
@@ -109,7 +122,12 @@ export const wishlistSlice = createSlice({
             })
             .addCase(getWishlistProducts.fulfilled, (state, action) => {
                 state.loading = 'succeeded';
-                state.wishlistProducts = action.payload;
+                // state.wishlistProducts = action.payload;
+                if (action.payload.dataType === 'productsFullInfo') {
+                    state.wishlistProducts = action.payload.data as WishlistInterface[];
+                }else{
+                    state.itemsId = action.payload.data as number[];
+                }
             })
     }
 });

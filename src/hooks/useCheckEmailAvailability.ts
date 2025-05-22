@@ -14,7 +14,7 @@ const useCheckEmailAvailability = () => {
 
         try {
             const response = await api.get(`/users?email=${email}`);
-console.log(response.data);
+            console.log(response.data);
 
             if (response.data.length > 0) {
                 setEmailAvailabilityStatus('notAvailable');
@@ -24,6 +24,7 @@ console.log(response.data);
                 setEmailAvailabilityStatus('available');
             }
         } catch (error) {
+            console.log(error);
             setEmailAvailabilityStatus('failed');
         }
     }

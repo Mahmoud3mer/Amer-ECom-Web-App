@@ -22,7 +22,7 @@ const LottieHandler = ({ type, message }: LottieInterface) => {
         <div className="d-flex flex-column justify-content-center align-items-center">
             {
                 type === 'error' ?
-                    <Lottie animationData={lottieMap[type]} style={{ width: '70%' }} /> :
+                    <Lottie animationData={lottieMap[type]} style={{ width: '50%' }} /> :
                     <Lottie animationData={lottieMap[type]} />
             }
             {

@@ -12,9 +12,11 @@ const Products = lazy(() => import('@pages/Products'));
 const AllProducts = lazy(() => import('@pages/AllProducts'));
 const Cart = lazy(() => import('@pages/Cart'));
 const WishList = lazy(() => import('@pages/WishList'));
+const Profile = lazy(() => import('@pages/Profile'));
 
 import ErrorPage from "@pages/errorPage/ErrorPage";
 import LottieHandler from "@components/feedback/LottieHandler/LottieHandler";
+import ProtectedRoute from "@components/auth/ProtectedRoute";
 
 const lottie = <LottieHandler type={'loading'}/>
 
@@ -63,11 +65,21 @@ const routes = createBrowserRouter([
             },
             {
                 path: 'shopping-cart',
-                element: <Suspense fallback={lottie}><Cart /></Suspense>
+                element: <ProtectedRoute>
+                    <Suspense fallback={lottie}><Cart /></Suspense>
+                </ProtectedRoute>
             },
             {
                 path: 'wishList',
-                element: <Suspense fallback={lottie}><WishList /></Suspense>
+                element: <ProtectedRoute>
+                    <Suspense fallback={lottie}><WishList /></Suspense>
+                </ProtectedRoute>
+            },
+            {
+                path: 'profile',
+                element: <ProtectedRoute>
+                    <Suspense fallback={lottie}><Profile /></Suspense>
+                </ProtectedRoute>
             },
         ]
     }
