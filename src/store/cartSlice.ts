@@ -1,11 +1,11 @@
 import { ProductInterface, StateInterface } from "@inerfaces/interfaces";
-import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import api from "@services/api";
 import checkError from "@utils/checkAxiosError";
 
 interface CatrInterface extends StateInterface {
-    items: {[key: number | string] : number};
+    items: { [key: number | string]: number };
     productsFullInfo: ProductInterface[];
 }
 
@@ -16,25 +16,25 @@ const initialState: CatrInterface = {
     error: null,
 }
 
-export const getCartProducts = createAsyncThunk('cart/getCartProducts', async(_, thunkAPI) => {
-    const { rejectWithValue, fulfillWithValue, getState, signal} = thunkAPI;
+export const getCartProducts = createAsyncThunk('cart/getCartProducts', async (_, thunkAPI) => {
+    const { rejectWithValue, fulfillWithValue, getState, signal } = thunkAPI;
 
     const { cart } = getState() as RootState;
     const itemsIds = Object.keys(cart.items);
 
-    if (itemsIds.length <= 0) {        
+    if (itemsIds.length <= 0) {
         return fulfillWithValue([]);
     }
-    
+
     try {
         const concatenatedItemsId = itemsIds.map(el => `id=${el}`).join('&');
         // console.log(concatenatedItemsId);
-        const response = await api.get<ProductInterface[]>(`/products?${concatenatedItemsId}`,{
+        const response = await api.get<ProductInterface[]>(`/products?${concatenatedItemsId}`, {
             signal,
         });
         // console.log(response.data);
         return response.data;
-        
+
     } catch (error) {
         // if (axios.isAxiosError(error)) {
         //     return rejectWithValue(error.response?.data.message || error.message);
@@ -55,7 +55,7 @@ export const cartSlice = createSlice({
             const productId = action.payload.productId;
             if (state.items[productId]) {
                 state.items[productId]++;
-            }else{
+            } else {
                 state.items[productId] = 1;
             }
         },
@@ -63,7 +63,7 @@ export const cartSlice = createSlice({
         increaseQuantity: (state, action) => {
             const productId = action.payload.productId;
             const newQuantity = action.payload.quantity + 1;
-            state.items[productId] = newQuantity;          
+            state.items[productId] = newQuantity;
         },
         decreaseQuantity: (state, action) => {
             const productId = action.payload.productId;
@@ -78,25 +78,38 @@ export const cartSlice = createSlice({
 
         cleanUp: (state) => {
             state.productsFullInfo = [];
-        }
+        },
+
+        clearCartAfterPlaceOrder: (state) => {
+            state.items = {};
+            state.productsFullInfo = [];
+        },
+        
     },
     extraReducers: (builder) => {
         builder.addCase(getCartProducts.pending, (state) => {
             state.loading = 'pending';
         })
-        .addCase(getCartProducts.rejected, (state, action) => {
-            state.error = action.payload as string;
-            state.loading = 'failed';
-        })
-        .addCase(getCartProducts.fulfilled, (state, action) => {
-            // console.log(action.payload);
-            
-            state.productsFullInfo = action.payload;
-            state.loading = 'succeeded';
-        })
+            .addCase(getCartProducts.rejected, (state, action) => {
+                state.error = action.payload as string;
+                state.loading = 'failed';
+            })
+            .addCase(getCartProducts.fulfilled, (state, action) => {
+                // console.log(action.payload);
+
+                state.productsFullInfo = action.payload;
+                state.loading = 'succeeded';
+            })
     }
 });
 
 
-export const { addToCart, increaseQuantity, decreaseQuantity, removeItemFromCategory, cleanUp } = cartSlice.actions;
+export const {
+    addToCart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeItemFromCategory,
+    cleanUp,
+    clearCartAfterPlaceOrder,
+} = cartSlice.actions;
 export default cartSlice.reducer;

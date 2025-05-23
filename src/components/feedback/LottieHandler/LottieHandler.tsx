@@ -3,6 +3,7 @@ import notFound from '@assets/Lotties/errorPage.json';
 import loading from '@assets/Lotties/loading.json';
 import error from '@assets/Lotties/errorMessage.json';
 import empty from '@assets/Lotties/empty.json';
+import success from '@assets/Lotties/success.json';
 
 
 const lottieMap = {
@@ -10,6 +11,7 @@ const lottieMap = {
     loading,
     error,
     empty,
+    success,
 }
 
 interface LottieInterface {
@@ -26,7 +28,7 @@ const LottieHandler = ({ type, message }: LottieInterface) => {
                     <Lottie animationData={lottieMap[type]} />
             }
             {
-                message && <div style={{ fontSize: '20px' }}>{message}</div>
+                message && <div style={{ fontSize: '20px', marginTop: '15px' }}>{message}</div>
             }
         </div>
     )

@@ -1,4 +1,4 @@
-import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
 import styles from './styles.module.css';
 import HeaderCart from "@eCommerce/HeaderCartIcon/HeaderCart";
 import { NavLink, useNavigate } from "react-router-dom";

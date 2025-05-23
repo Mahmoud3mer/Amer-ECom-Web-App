@@ -16,6 +16,7 @@ import {
     REGISTER,
 } from 'redux-persist';
 import wishlistSlice from "./wishlistSlice";
+import ordersSlice from "./ordersSlice";
 
 
 const rootersistConfig = {
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
     products: productsSlice,
     cart: persistReducer(cartPersistConfig, cartSlice),
     wishlist: persistReducer(wishlistPersistConfig, wishlistSlice),
+    orders: ordersSlice,
 })
 
 

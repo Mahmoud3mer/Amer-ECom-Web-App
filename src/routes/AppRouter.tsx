@@ -2,7 +2,6 @@ import MainLayout from "@layouts/mainLayout/MainLayout";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-
 const Home = lazy(() => import('@pages/Home'));
 const AboutUs = lazy(() => import('@pages/AboutUs'));
 const Categories = lazy(() => import('@pages/Categories'));
@@ -65,9 +64,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: 'shopping-cart',
-                element: <ProtectedRoute>
-                    <Suspense fallback={lottie}><Cart /></Suspense>
-                </ProtectedRoute>
+                element: <Suspense fallback={lottie}><Cart /></Suspense>
             },
             {
                 path: 'wishList',
