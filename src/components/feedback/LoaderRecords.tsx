@@ -7,6 +7,7 @@ const skeltonType = {
     category: CategorySkeleton,
     product: ProductSkeleton,
     cart: CartSkeleton,
+    order: CartSkeleton,
 }
 
 interface LoadingInterface{

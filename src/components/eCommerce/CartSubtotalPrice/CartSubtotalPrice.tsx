@@ -2,7 +2,7 @@ import { Button } from 'react-bootstrap';
 import styles from './styles.module.css';
 import { ProductInterface } from '@inerfaces/interfaces';
 import { useEffect, useState } from 'react';
-import ModalAcception from '@components/feedback/Modal/ModalAcception';
+import ModalAcception from '@components/feedback/Modals/ModalAcception';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { placeOrder } from '@store/ordersSlice';
 import toast from 'react-hot-toast';

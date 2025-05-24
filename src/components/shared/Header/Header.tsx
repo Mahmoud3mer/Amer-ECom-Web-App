@@ -1,7 +1,7 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
 import styles from './styles.module.css';
 import HeaderCart from "@eCommerce/HeaderCartIcon/HeaderCart";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "@store/hooks";
 import { getCartTotalQuantitySelector, getWishlistTotalQuantitySelector } from "@store/selectors";
 import BreadcrumbExamble from "@components/eCommerce/Breadcrumb/Breadcrumb";
@@ -19,7 +19,9 @@ const Header = () => {
     const totalWishlisttQuantity = useAppSelector(state => getWishlistTotalQuantitySelector(state));
     const { userInfo, accessToken } = useAppSelector(s => s.auth);
     const dispatch = useAppDispatch();
-
+    const { pathname } = useLocation();
+    console.log(pathname);
+    
     const handleLogOut = () => {
         dispatch(logOut());
         navigate('/');
@@ -66,8 +68,8 @@ const Header = () => {
                         {
                             accessToken ?
                                 <NavDropdown title={userInfo?.firstName + ' ' + userInfo?.lastName} id="basic-nav-dropdown" style={{ color: '#FFFFFF8C' }}>
-                                    <NavDropdown.Item as={NavLink} to={'/profile'}>Profile</NavDropdown.Item>
-                                    <NavDropdown.Item>
+                                    <NavDropdown.Item as={NavLink} to={'profile'} end>Profile</NavDropdown.Item>
+                                    <NavDropdown.Item as={NavLink} to={'profile/orders'}>
                                         Orders
                                     </NavDropdown.Item>
                                     <NavDropdown.Divider />
@@ -87,9 +89,13 @@ const Header = () => {
             </Navbar>
 
             {/* BreadcrumbExamble */}
-            <div className={`${styles.breadcrumb} mt-3 mx-2`}>
+            {
+                pathname === '/' ? '' :
+                <div className={`${styles.breadcrumb} mt-3 mx-2`}>
                 <BreadcrumbExamble />
             </div>
+            }
+            
         </header>
     )
 }

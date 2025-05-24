@@ -1,4 +1,5 @@
 import MainLayout from "@layouts/mainLayout/MainLayout";
+import ProfileLayout from "@layouts/profileLayout/ProfileLayout";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -11,13 +12,14 @@ const Products = lazy(() => import('@pages/Products'));
 const AllProducts = lazy(() => import('@pages/AllProducts'));
 const Cart = lazy(() => import('@pages/Cart'));
 const WishList = lazy(() => import('@pages/WishList'));
-const Profile = lazy(() => import('@pages/Profile'));
+const Account = lazy(() => import('@pages/account/Account'));
+const Orders = lazy(() => import('@pages/Orders'));
 
 import ErrorPage from "@pages/errorPage/ErrorPage";
 import LottieHandler from "@components/feedback/LottieHandler/LottieHandler";
 import ProtectedRoute from "@components/auth/ProtectedRoute";
 
-const lottie = <LottieHandler type={'loading'}/>
+const lottie = <LottieHandler type={'loading'} />
 
 const routes = createBrowserRouter([
     {
@@ -74,10 +76,24 @@ const routes = createBrowserRouter([
             },
             {
                 path: 'profile',
-                element: <ProtectedRoute>
-                    <Suspense fallback={lottie}><Profile /></Suspense>
-                </ProtectedRoute>
-            },
+                element: (<ProtectedRoute>
+                    <Suspense fallback={lottie}><ProfileLayout /></Suspense>
+                </ProtectedRoute>),
+                children: [
+                    {
+                        index: true,
+                        element: <ProtectedRoute>
+                            <Suspense fallback={lottie}><Account /></Suspense>
+                        </ProtectedRoute>
+                    },
+                    {
+                        path: 'orders',
+                        element: <ProtectedRoute>
+                            <Suspense fallback={lottie}><Orders /></Suspense>
+                        </ProtectedRoute>
+                    }
+                ]
+            }
         ]
     }
 ])
