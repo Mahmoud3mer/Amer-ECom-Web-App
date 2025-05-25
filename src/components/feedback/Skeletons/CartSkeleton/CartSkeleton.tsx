@@ -6,7 +6,7 @@ const CartSkeleton = () => {
     return (
         <Row>
             {
-                Array(4).fill(0).map((el, i) =>
+                Array(4).fill(0).map((_, i) =>
                     <Col key={i}>
                         <ContentLoader
                             speed={1.5}

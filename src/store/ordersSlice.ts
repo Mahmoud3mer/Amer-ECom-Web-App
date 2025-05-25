@@ -81,7 +81,7 @@ export const ordersSlice = createSlice({
             state.loading = 'failed';
             state.error = action.payload as string;
         })
-        .addCase(placeOrder.fulfilled, (s, a) => {
+        .addCase(placeOrder.fulfilled, (s) => {
             s.loading = 'succeeded';
             s.error = null;
             // s.orders = a.payload;

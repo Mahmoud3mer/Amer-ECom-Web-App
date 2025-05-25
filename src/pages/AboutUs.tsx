@@ -13,7 +13,7 @@
 
 //       <div>AboutUs</div>
 //     </>
-    
+
 //   )
 // }
 
@@ -93,12 +93,15 @@ const AboutUs = () => {
       {/* Call to Action */}
       <div className="text-center">
         <h2 className="mb-3">Ready to Shop?</h2>
-        <Button as={Link} to="/" variant="success">
-          Explore Products
-        </Button>
+        <Link to="/">
+          <Button variant="success">
+            Explore Products
+          </Button>
+        </Link>
+
       </div>
     </Container>
   );
-  }
+}
 
-  export default AboutUs;
+export default AboutUs;

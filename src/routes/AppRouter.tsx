@@ -3,7 +3,7 @@ import ProfileLayout from "@layouts/profileLayout/ProfileLayout";
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-const Home = lazy(() => import('@pages/Home'));
+const Home = lazy(() => import('@pages/home/Home'));
 const AboutUs = lazy(() => import('@pages/AboutUs'));
 const Categories = lazy(() => import('@pages/Categories'));
 const Login = lazy(() => import('@pages/auth/Login'));

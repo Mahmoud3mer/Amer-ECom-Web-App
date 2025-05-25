@@ -5,7 +5,7 @@ const CategorySkeleton = () => {
     return (
         <Row>
             {
-                Array(4).fill(0).map((el,i) =>
+                Array(4).fill(0).map((_,i) =>
                     <Col key={i} xs={12} md={4} lg={3} className="mb-5 mt-2">
                         <ContentLoader
                             speed={1.5}

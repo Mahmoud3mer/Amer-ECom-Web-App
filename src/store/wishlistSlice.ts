@@ -1,4 +1,4 @@
-import { StateInterface, WishlistInterface } from "@inerfaces/interfaces";
+import { ProductInterface, StateInterface, WishlistInterface } from "@inerfaces/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "@services/api";
 import { RootState } from "./store";
@@ -9,7 +9,7 @@ import checkError from "@utils/checkAxiosError";
 // }
 interface IWishlistState extends StateInterface {
     itemsId: (number | string)[];
-    wishlistProducts: WishlistInterface[]
+    wishlistProducts: ProductInterface[]
 }
 const initialState: IWishlistState = {
     itemsId: [],
@@ -41,8 +41,8 @@ export const likeDislikeWishlist = createAsyncThunk('wishlist/likeDislikeWishlis
 
 export const getWishlistProducts = createAsyncThunk('wishlist/getWishlistProducts', async (dataType: TDataType, thunkAPI) => {
     const { rejectWithValue, getState } = thunkAPI;
-    const { wishlist, auth } = getState() as RootState;
-    const { itemsId } = wishlist;
+    const {  auth } = getState() as RootState;
+    // const { itemsId } = wishlist;
     const { userInfo } = auth;
 
     try {
@@ -124,7 +124,7 @@ export const wishlistSlice = createSlice({
                 state.loading = 'succeeded';
                 // state.wishlistProducts = action.payload;
                 if (action.payload.dataType === 'productsFullInfo') {
-                    state.wishlistProducts = action.payload.data as WishlistInterface[];
+                    state.wishlistProducts = action.payload.data as ProductInterface[];
                 }else{
                     state.itemsId = action.payload.data as number[];
                 }
