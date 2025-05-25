@@ -1,0 +1,36 @@
+/* .profileImg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.profileImg img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+
+
+
+.profileContsiner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileInfo{
+    margin-top: 25px;
+}
+.profileInfoItem{
+    display: flex;
+    gap: 10px;
+}
+
+.profileInfoItem h5{
+    color: #003b03;
+}
+.profileInfoItem p{
+    color: #05660a;
+}

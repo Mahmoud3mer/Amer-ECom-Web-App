@@ -1,19 +1,25 @@
-import IntroLoader from "@components/introLoader/IntroLoader";
 import MainLayout from "@layouts/mainLayout/MainLayout";
-import { lazy, useEffect, useState } from "react";
+import ProfileLayout from "@layouts/profileLayout/ProfileLayout";
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-
-const Home = lazy(() => import('@pages/Home'));
+const Home = lazy(() => import('@pages/home/Home'));
 const AboutUs = lazy(() => import('@pages/AboutUs'));
 const Categories = lazy(() => import('@pages/Categories'));
-const Login = lazy(() => import('@pages/Login'));
-const Register = lazy(() => import('@pages/Register'));
+const Login = lazy(() => import('@pages/auth/Login'));
+const Register = lazy(() => import('@pages/auth/Register'));
 const Products = lazy(() => import('@pages/Products'));
 const AllProducts = lazy(() => import('@pages/AllProducts'));
-const ErrorPage = lazy(() => import('@pages/errorPage/ErrorPage'));
 const Cart = lazy(() => import('@pages/Cart'));
 const WishList = lazy(() => import('@pages/WishList'));
+const Account = lazy(() => import('@pages/account/Account'));
+const Orders = lazy(() => import('@pages/Orders'));
+
+import ErrorPage from "@pages/errorPage/ErrorPage";
+import LottieHandler from "@components/feedback/LottieHandler/LottieHandler";
+import ProtectedRoute from "@components/auth/ProtectedRoute";
+
+const lottie = <LottieHandler type={'loading'} />
 
 const routes = createBrowserRouter([
     {
@@ -23,27 +29,27 @@ const routes = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home />
+                element: <Suspense fallback={lottie}><Home /></Suspense>
             },
             {
                 path: 'about-us',
-                element: <AboutUs />
+                element: <Suspense fallback={lottie}><AboutUs /></Suspense>
             },
             {
                 path: 'categories',
-                element: <Categories />
+                element: <Suspense fallback={lottie}><Categories /></Suspense>
             },
             {
                 path: 'login',
-                element: <Login />
+                element: <Suspense fallback={lottie}><Login /></Suspense>
             },
             {
                 path: 'register',
-                element: <Register />
+                element: <Suspense fallback={lottie}><Register /></Suspense>
             },
             {
                 path: 'categories/:prefix',
-                element: <Products />,
+                element: <Suspense fallback={lottie}><Products /></Suspense>,
                 loader: ({ params }) => {
                     if (typeof params.prefix !== 'string' || !/^[a-z]+$/i.test(params.prefix)) {
                         throw new Response("Bad request", {
@@ -56,37 +62,59 @@ const routes = createBrowserRouter([
             },
             {
                 path: 'products',
-                element: <AllProducts />
+                element: <Suspense fallback={lottie}><AllProducts /></Suspense>
             },
             {
                 path: 'shopping-cart',
-                element: <Cart />
+                element: <Suspense fallback={lottie}><Cart /></Suspense>
             },
             {
                 path: 'wishList',
-                element: <WishList />
+                element: <ProtectedRoute>
+                    <Suspense fallback={lottie}><WishList /></Suspense>
+                </ProtectedRoute>
             },
+            {
+                path: 'profile',
+                element: (<ProtectedRoute>
+                    <Suspense fallback={lottie}><ProfileLayout /></Suspense>
+                </ProtectedRoute>),
+                children: [
+                    {
+                        index: true,
+                        element: <ProtectedRoute>
+                            <Suspense fallback={lottie}><Account /></Suspense>
+                        </ProtectedRoute>
+                    },
+                    {
+                        path: 'orders',
+                        element: <ProtectedRoute>
+                            <Suspense fallback={lottie}><Orders /></Suspense>
+                        </ProtectedRoute>
+                    }
+                ]
+            }
         ]
     }
 ])
 
 
 const AppRouter = () => {
-    const [showIntro, setShowIntro] = useState(true);
-    useEffect(() => {
-        const timer = setTimeout(() => setShowIntro(false), 3000);
+    // const [showIntro, setShowIntro] = useState(true);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => setShowIntro(false), 3000);
 
-        return () => clearTimeout(timer);
-    }, []);
+    //     return () => clearTimeout(timer);
+    // }, []);
 
     return (
         <>
-            {
+            {/* {
                 showIntro ?
                     <IntroLoader /> :
                     <RouterProvider router={routes} />
-            }
-
+            } */}
+            <RouterProvider router={routes} />
 
         </>
     )

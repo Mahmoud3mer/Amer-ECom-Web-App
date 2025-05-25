@@ -28,3 +28,7 @@
 .activeLink{
     color: var(--secondary-color) !important;
 }
+
+.dropdown-menu {
+    background-color: #024705e8 !important;
+}
