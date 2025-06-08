@@ -30,7 +30,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@utils/*": ["src/utils/*"],
       "@services/*": ["src/services/*"],
-      "@inerfaces/*": ["src/inerfaces/*"]
+      "@inerfaces/*": ["src/inerfaces/*"],
+      "@validations/*": ["src/validations/*"],
     },
 
     /* Linting */

@@ -16,10 +16,10 @@ export interface ProductInterface{
     isLiked: boolean;
 }
 
-type ILoading = 'idle' | 'pending' | 'succeeded' | 'failed'
+export type TLoading = 'idle' | 'pending' | 'succeeded' | 'failed'
 
 export interface StateInterface{
-    loading: ILoading,
+    loading: TLoading,
     error: string | null,
 }
 
@@ -27,4 +27,11 @@ export interface WishlistInterface{
     userId: number | string,
     productId: string | number,
     id: string | number,
+}
+
+export interface OrderInterface{
+    userId: number | string,
+    items: Array<ProductInterface>,
+    subtotal: number,
+    id: number | string,
 }

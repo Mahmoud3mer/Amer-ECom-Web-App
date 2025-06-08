@@ -1,5 +1,5 @@
 .headerContainer{
-    padding: 15px 0;
+    padding: 15px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -9,9 +9,12 @@
     background-color: #003b03 !important;
 }
 
-.navBar .nav-link{
+/* .navBar .nav-link{
     color: white !important;
-}
+} */
+/* #basic-nav-dropdown{
+    color: #FFFFFF8C !important;
+} */
 
 .iconsWrraper{
     display: flex;
@@ -53,4 +56,15 @@
 .breadcrumb a{
     color: #003b03 !important;
     text-decoration: underline;
+}
+
+.logOut{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: red;
+    font-weight: 500;
+}
+.logOut svg{
+    font-size: 18px;
 }

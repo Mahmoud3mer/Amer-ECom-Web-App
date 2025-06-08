@@ -19,6 +19,7 @@ export default defineConfig({
       "@utils": path.resolve(__dirname, './src/utils'),
       "@services": path.resolve(__dirname, './src/services'),
       "@inerfaces": path.resolve(__dirname, './src/inerfaces'),
+      "@validations": path.resolve(__dirname, './src/validations'),
     }
   },
   plugins: [react(), svgr(),],

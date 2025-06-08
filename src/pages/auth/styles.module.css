@@ -1,0 +1,24 @@
+.formContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.formContainer h2{
+    color: #43a047;
+}
+
+.formContainer form label{
+    color: #43a047;
+}
+
+.haveAccount{
+    font-size: 14px;
+}
+.haveAccount a{
+    color: #43a047 !important;
+    text-decoration: underline;
+}
