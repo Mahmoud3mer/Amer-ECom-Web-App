@@ -2,7 +2,7 @@ import { ProductInterface, TLoading } from "@inerfaces/interfaces"
 import { Row } from "react-bootstrap"
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation, EffectCoverflow } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import '/node_modules/swiper/swiper.css';
 
 import Product from "@components/eCommerce/Product/Product";
