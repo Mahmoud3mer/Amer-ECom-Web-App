@@ -1,4 +1,4 @@
-import { ProductInterface } from "@inerfaces/interfaces"
+import { ProductInterface, TLoading } from "@inerfaces/interfaces"
 import { Row } from "react-bootstrap"
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,12 +6,14 @@ import { Autoplay, Pagination, Navigation, EffectCoverflow } from 'swiper/module
 import '/node_modules/swiper/swiper.css';
 
 import Product from "@components/eCommerce/Product/Product";
+import ProductSkeleton from "@components/feedback/Skeletons/ProductSkeleton/ProductSkeleton";
 
 type TFeaturedProducts = {
     products: ProductInterface[];
+    loading: TLoading;
 }
 
-const FeaturedProducts = ({ products }: TFeaturedProducts) => {
+const FeaturedProducts = ({ products, loading }: TFeaturedProducts) => {
     const breakpoints = {
         // when window width is >= 320px
         320: {
@@ -39,7 +41,34 @@ const FeaturedProducts = ({ products }: TFeaturedProducts) => {
         <>
             <h2 className="text-center mb-4">Featured Products</h2>
             <Row className="my-5">
-                <Swiper
+                {
+                    loading === 'pending' ?
+                        <ProductSkeleton /> :
+                        <Swiper
+                            effect={'coverflow'}
+                            spaceBetween={10}
+                            slidesPerView={4}
+                            autoplay={{
+                                delay: 1500,
+                                disableOnInteraction: false,
+                            }}
+                            modules={[Autoplay, Pagination, Navigation]}
+                            loop
+                            navigation={true}
+                            pagination={true}
+                            
+                            breakpoints={breakpoints}
+                        >
+                            {
+                                products.map((p) => (
+                                    <SwiperSlide key={p.id} className="d-flex justify-content-center">
+                                        <Product title={p.title} imgSrc={p.img} price={p.price} productId={p.id} max={p.max} quantity={p.quantity} isLiked={p.isLiked} />
+                                    </SwiperSlide>
+                                ))
+                            }
+                        </Swiper>
+                }
+                {/* <Swiper
                     effect={'coverflow'}
                     spaceBetween={50}
                     slidesPerView={4}
@@ -68,7 +97,7 @@ const FeaturedProducts = ({ products }: TFeaturedProducts) => {
                             </SwiperSlide>
                         ))
                     }
-                </Swiper>
+                </Swiper> */}
             </Row>
         </>
     )

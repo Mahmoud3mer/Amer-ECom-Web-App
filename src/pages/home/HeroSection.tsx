@@ -17,6 +17,7 @@ const HeroSection = () => {
                             className="d-block w-100"
                             src={img}
                             alt="Shop Now"
+                            style={{height:'100dvh', objectFit: 'cover'}}
                         />
                         <Carousel.Caption>
                             <h4 style={{ color: '#016801' }}>Welcome to MyShop!</h4>

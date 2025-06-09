@@ -18,10 +18,10 @@ interface LoadingInterface{
 }
 
 const LoaderRecords = ({ loading, error, children, type = 'category'}: LoadingInterface) => {
-    const Copmonent = skeltonType[type];
+    const Component = skeltonType[type];
 
     if (loading === 'pending') {
-        return  <Copmonent />
+        return  <Component />
     }
 
     if (loading === 'failed') {

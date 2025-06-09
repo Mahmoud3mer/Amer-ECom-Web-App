@@ -9,7 +9,7 @@ import FeaturedProducts from "./FeaturedProducts";
 
 const Home = () => {
   const { pathname } = useLocation();
-  const { products } = useAppSelector(s => s.products);
+  const { products, loading } = useAppSelector(s => s.products);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Home = () => {
 
         {/* Featured Products */}
         <Container>
-          <FeaturedProducts products={products}/>
+          <FeaturedProducts products={products} loading={loading}/>
         </Container>
       </div>
     </>
