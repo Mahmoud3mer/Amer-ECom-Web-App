@@ -1,10 +1,16 @@
+:root{
+    --primary-color: #16a34a;   
+    --secondary-color: #065f46;
+    --text-color: #f0fdf4;
+}
+
 .footerContainer {
     margin-top: auto;
     /* color: white; */
-    color: #FFFFFF8C;
+    color: var(--text-color);
     text-align: center;
     padding: 10px 0;
-    background-color: #003b03;
+    background-color: var(--secondary-color);
     padding: 24px 35px;
 }
 

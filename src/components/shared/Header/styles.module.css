@@ -1,3 +1,9 @@
+:root{
+    --primary-color: #16a34a;   
+    --secondary-color: #065f46;
+    --text-color: #f0fdf4;
+}
+
 .headerContainer{
     padding: 15px 10px;
     display: flex;
@@ -6,8 +12,20 @@
 }
 
 .navBar{
-    background-color: #003b03 !important;
+    background-color: var(--secondary-color) !important;
+    padding-block: 0;
 }
+
+.activeLink{
+    color: #f0fdf4 !important;
+    background-color: var(--primary-color);
+    border-radius: 4px !important;
+}
+
+.nav-link{
+    padding-block: 10px !important;
+}
+
 
 /* .navBar .nav-link{
     color: white !important;

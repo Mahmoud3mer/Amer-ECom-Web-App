@@ -55,14 +55,14 @@ const Header = () => {
             >
                 <Container>
                     {/* <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand> */}
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{margin:'10px'}}/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             {/* <Nav.Link as={NavLink} to="/" className={({ isActive }) => (isActive ? "activeLink" : "")}>Home</Nav.Link> */}
-                            <NavLink to="/" className={({ isActive }) => (isActive ? "activeLink nav-link" : "nav-link")}>Home</NavLink>
-                            <NavLink to="/categories" className={({ isActive }) => (isActive ? "activeLink nav-link" : "nav-link")}>Categories</NavLink>
-                            <NavLink to="/about-us" className={({ isActive }) => (isActive ? "activeLink nav-link" : "nav-link")}>About</NavLink>
-                            <NavLink to="/products" className={({ isActive }) => (isActive ? "activeLink nav-link" : "nav-link")}>Products</NavLink>
+                            <NavLink to="/" className={({ isActive }) => (isActive ? `${styles.activeLink} nav-link` : "nav-link")}>Home</NavLink>
+                            <NavLink to="/categories" className={({ isActive }) => (isActive ? `${styles.activeLink} nav-link` : "nav-link")}>Categories</NavLink>
+                            <NavLink to="/about-us" className={({ isActive }) => (isActive ? `${styles.activeLink} nav-link` : "nav-link")}>About</NavLink>
+                            <NavLink to="/products" className={({ isActive }) => (isActive ? `${styles.activeLink} nav-link` : "nav-link")}>Products</NavLink>
                         </Nav>
 
                         {

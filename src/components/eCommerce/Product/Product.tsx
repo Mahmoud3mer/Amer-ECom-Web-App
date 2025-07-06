@@ -89,7 +89,7 @@ const Product = memo(({ title, imgSrc, price, productId, max, quantity, isLiked 
                     </p>
                     <Button
                         variant="success"
-                        style={{ color: "white", display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }}
+                        style={{ color: "white", display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', }}
                         onClick={() => handleAddToCart(productId)}
                         disabled={btnDisabled || quantityReachedToMax ? true : false}
                     >
